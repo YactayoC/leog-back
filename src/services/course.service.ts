@@ -14,20 +14,27 @@ const listarCursos = async (req: Request, res: Response) => {
 };
 
 const agregarCurso = async (req: Request, res: Response) => {
-  const { nombre, descripcion, imagen_url, video_iframe, categoria_id } =
-    req.body;
+  const { nombre, descripcion, video_iframe, categoria_id } = req.body;
 
   if (
     !nombre ||
     !descripcion ||
-    !imagen_url ||
     !video_iframe ||
     !categoria_id
   ) {
     return res.status(400).json({ message: "Invalid body" });
   }
 
+  if (!req.file) {
+    return res.status(400).json({ message: "Invalid file" });
+  }
+
   try {
+    let filePath = req.file.path;
+    filePath = filePath.replace(/\\/g, "/");
+
+    const imagen_url = "http://localhost:3000/" + filePath;
+
     await pool.query("CALL agregar_curso(?, ?, ?, ?, ?)", [
       nombre,
       descripcion,
