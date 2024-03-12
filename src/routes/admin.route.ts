@@ -10,6 +10,8 @@ import {
   agregarCategoria,
   eliminarCategoria,
   listarCategorias,
+  editarCategoria,
+  listarCategoriaPorId
 } from "../services/categorie.service";
 import multer from "multer";
 import storageSaveF from "../utils/saveFile";
@@ -29,5 +31,7 @@ router.get("/cursos/:id", [], listarCursoPorId);
 router.get("/categorias", [], listarCategorias);
 router.post("/categorias", [], agregarCategoria);
 router.delete("/categorias/:id", [], eliminarCategoria);
+router.put("/categorias/:id", [], editarCategoria);
+router.get("/categorias/:id", [], listarCategoriaPorId);
 
 export { router as routerAdmin };

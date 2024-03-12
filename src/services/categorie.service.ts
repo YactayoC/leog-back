@@ -25,7 +25,24 @@ const agregarCategoria = async (req: Request, res: Response) => {
   }
 };
 
-// FALLTA ACTUALIZAR DE LA CATEGORIA
+const editarCategoria = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const { nombre, descripcion } = req.body;
+
+  if (!id || !nombre || !descripcion) {
+    return res.status(400).json({ message: "Invalid body" });
+  }
+
+  try {
+    await pool.query(
+      "UPDATE categorias SET nombre = ?, descripcion = ? WHERE id = ?",
+      [nombre, descripcion, id]
+    );
+    return res.json({ message: "Categoria editado correctamente" });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
 
 const eliminarCategoria = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -43,4 +60,25 @@ const eliminarCategoria = async (req: Request, res: Response) => {
   }
 };
 
-export { listarCategorias, agregarCategoria, eliminarCategoria };
+const listarCategoriaPorId = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  if (!id) {
+    return res.status(400).json({ message: "Invalid body" });
+  }
+
+  try {
+    const [result] = await pool.query("SELECT * FROM categorias WHERE id = ?", [id]);
+    return res.json({ categoria: result });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error" });
+  }
+}
+
+export {
+  listarCategorias,
+  agregarCategoria,
+  eliminarCategoria,
+  editarCategoria,
+  listarCategoriaPorId
+};
