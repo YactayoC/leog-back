@@ -8,6 +8,7 @@ const listarCursos = async (req: Request, res: Response) => {
     const [result] = await pool.query(
       "SELECT cursos.*, categorias.nombre as categoria_nombre FROM cursos INNER JOIN categorias ON cursos.categoria_id = categorias.id"
     );
+
     return res.json({ cursos: result || [] });
   } catch (error) {
     console.error("Error al ejecutar la consulta:", error);
