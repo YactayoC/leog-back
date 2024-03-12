@@ -3,6 +3,8 @@ import {
   agregarCurso,
   listarCursos,
   eliminarCurso,
+  actualizarCurso,
+  listarCursoPorId,
 } from "../services/course.service";
 import {
   agregarCategoria,
@@ -19,7 +21,9 @@ const upload = multer({ storage: storageSaveF });
 // Cursos
 router.get("/cursos", [], listarCursos);
 router.post("/cursos", [], upload.single("file"), agregarCurso);
+router.put("/cursos/:id", [], upload.single("file"), actualizarCurso);
 router.delete("/cursos/:id", [], eliminarCurso);
+router.get("/cursos/:id", [], listarCursoPorId);
 
 // Categorias
 router.get("/categorias", [], listarCategorias);
