@@ -6,8 +6,10 @@ import path from "path";
 import { routerAdmin } from "./routes/admin.route";
 import { verificateConnection } from "./database/connectionDB";
 import { routerAuth } from "./routes/auth.route";
+import { verificarRegistro } from "./services/dataDefault.service";
 
 verificateConnection();
+verificarRegistro();
 
 const app = express();
 //RUTA PARA EXPONER LA IMAGENES src/uploads
